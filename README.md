@@ -92,8 +92,8 @@ GET /health/ready
 - /health/live → Returns 200 if the app is running
 - /health/ready → Returns 200 only if:
 
-   -Database is reachable
-   -WEBHOOK_SECRET is set
+   - Database is reachable
+   - WEBHOOK_SECRET is set
 
 ## 🔐 Webhook API
 ### Endpoint
@@ -104,7 +104,7 @@ POST /webhook
 ### Headers
 ```http
 Content-Type: application/json
-X-Signature: <HMAC_SHA256 of raw body using WEBHOOK_SECRET>```
+X-Signature: <HMAC_SHA256 of raw body using WEBHOOK_SECRET>
 ```
 ### Body
 ```json
@@ -232,6 +232,7 @@ Built using:
 - VS Code
 
 - Docker Desktop
+
 
 
 
