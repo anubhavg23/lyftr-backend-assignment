@@ -2,7 +2,7 @@
 
 A production-grade **FastAPI** service that ingests WhatsApp-like webhooks **exactly once**, verifies **HMAC signatures**, persists messages in **SQLite**, and exposes **query, analytics, health, and metrics** endpoints — all fully containerized with **Docker**.
 
-Built to meet **Lyftr AI’s backend engineering evaluation criteria**.
+
 
 ---
 
@@ -232,6 +232,7 @@ Built using:
 - VS Code
 
 - Docker Desktop
+
 
 
 
