@@ -83,66 +83,71 @@ The API will be available at:
 ```
 http://localhost:8000
 ```
-##❤️ Health Check
+## ❤️ Health Check
 ```
 GET /health/live
 GET /health/ready
 ```
 
-/health/live → Returns 200 if the app is running
+- /health/live → Returns 200 if the app is running
+- /health/ready → Returns 200 only if:
 
-/health/ready → Returns 200 only if:
+   -Database is reachable
+   -WEBHOOK_SECRET is set
 
-Database is reachable
+## 🔐 Webhook API
+### Endpoint
+```http
+POST /webhook
+```
 
-WEBHOOK_SECRET is set
-
-##🔐 Webhook API
-###Endpoint```http
-POST /webhook```
-
-###Headers```http
+### Headers
+```http
 Content-Type: application/json
 X-Signature: <HMAC_SHA256 of raw body using WEBHOOK_SECRET>```
-
-###Body```json
+```
+### Body
+```json
 {
   "message_id": "m1",
   "from": "+919876543210",
   "to": "+14155550100",
   "ts": "2025-01-15T10:00:00Z",
   "text": "Hello"
-}```
+}
+```
 
-###Success Response```json
+### Success Response
+```json
 {
   "status": "ok"
-}```
+}
+```
 
+- Invalid or missing signature → 401
 
-Invalid or missing signature → 401
+- Invalid payload → 422
 
-Invalid payload → 422
+- Duplicate message_id → still returns 200 (idempotent)
 
-Duplicate message_id → still returns 200 (idempotent)
+## 📬 List Messages
+```http
+GET /messages
+```
 
-##📬 List Messages```http
-GET /messages```
+### Supports:
 
+- limit
 
-###Supports:
+- offset
 
-limit
+- from
 
-offset
+- since
 
-from
+- q
 
-since
-
-q
-
-###Example response:
+### Example response:
 ```json
 {
   "data": [
@@ -160,11 +165,13 @@ q
 }
 ```
 
-##📊 Stats```
-GET /stats```
+## 📊 Stats
+```
+GET /stats
+```
 
 
-###Example:
+### Example:
 ```json
 
 {
@@ -178,20 +185,22 @@ GET /stats```
 }
 ```
 
-📈 Metrics```http
-GET /metrics```
+##📈 Metrics
+```http
+GET /metrics
+```
 
 
 Returns Prometheus-style metrics including:
 
-http_requests_total
+- http_requests_total
 
-webhook_requests_total
+- webhook_requests_total
 
-request_latency_ms_*
+- request_latency_ms_*
 
-##🧠 Design Decisions
-###🔐 HMAC Verification
+## 🧠 Design Decisions
+### 🔐 HMAC Verification
 
 The webhook body is validated using:
 ```
@@ -201,28 +210,29 @@ HMAC_SHA256(WEBHOOK_SECRET, raw_request_body)
 
 and compared against the X-Signature header using constant-time comparison.
 
-###♻️ Idempotency
+### ♻️ Idempotency
 
 message_id is the SQLite primary key.
 Duplicate inserts throw an integrity error, which is caught and treated as a valid duplicate request.
 
-###📄 Pagination
+### 📄 Pagination
 
 /messages returns both:
 
-paginated results
+- paginated results
 
-total matching count
+- total matching count
 
 so frontends can build proper pagination.
 
-##🧪 Setup Used
+## 🧪 Setup Used
 
 Built using:
 
-VS Code
+- VS Code
 
-Docker Desktop
+- Docker Desktop
+
 
 
 
