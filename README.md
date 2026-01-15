@@ -185,7 +185,7 @@ GET /stats
 }
 ```
 
-##📈 Metrics
+## 📈 Metrics
 ```http
 GET /metrics
 ```
@@ -232,6 +232,7 @@ Built using:
 - VS Code
 
 - Docker Desktop
+
 
 
 
