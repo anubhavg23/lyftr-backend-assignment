@@ -83,7 +83,7 @@ The API will be available at:
 ```
 http://localhost:8000
 ```
-❤️ Health Check
+##❤️ Health Check
 ```
 GET /health/live
 GET /health/ready
@@ -97,15 +97,15 @@ Database is reachable
 
 WEBHOOK_SECRET is set
 
-🔐 Webhook API
-Endpoint```http
+##🔐 Webhook API
+###Endpoint```http
 POST /webhook```
 
-Headers```http
+###Headers```http
 Content-Type: application/json
 X-Signature: <HMAC_SHA256 of raw body using WEBHOOK_SECRET>```
 
-Body```json
+###Body```json
 {
   "message_id": "m1",
   "from": "+919876543210",
@@ -114,7 +114,7 @@ Body```json
   "text": "Hello"
 }```
 
-Success Response```json
+###Success Response```json
 {
   "status": "ok"
 }```
@@ -126,11 +126,11 @@ Invalid payload → 422
 
 Duplicate message_id → still returns 200 (idempotent)
 
-📬 List Messages```http
+##📬 List Messages```http
 GET /messages```
 
 
-Supports:
+###Supports:
 
 limit
 
@@ -142,7 +142,7 @@ since
 
 q
 
-Example response:
+###Example response:
 ```json
 {
   "data": [
@@ -160,11 +160,11 @@ Example response:
 }
 ```
 
-📊 Stats```
+##📊 Stats```
 GET /stats```
 
 
-Example:
+###Example:
 ```json
 
 {
@@ -190,8 +190,8 @@ webhook_requests_total
 
 request_latency_ms_*
 
-🧠 Design Decisions
-🔐 HMAC Verification
+##🧠 Design Decisions
+###🔐 HMAC Verification
 
 The webhook body is validated using:
 ```
@@ -201,12 +201,12 @@ HMAC_SHA256(WEBHOOK_SECRET, raw_request_body)
 
 and compared against the X-Signature header using constant-time comparison.
 
-♻️ Idempotency
+###♻️ Idempotency
 
 message_id is the SQLite primary key.
 Duplicate inserts throw an integrity error, which is caught and treated as a valid duplicate request.
 
-📄 Pagination
+###📄 Pagination
 
 /messages returns both:
 
@@ -216,12 +216,13 @@ total matching count
 
 so frontends can build proper pagination.
 
-🧪 Setup Used
+##🧪 Setup Used
 
 Built using:
 
 VS Code
 
 Docker Desktop
+
 
 
